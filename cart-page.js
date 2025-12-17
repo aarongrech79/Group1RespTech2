@@ -1,4 +1,4 @@
-// Cart page specific logic
+// Cart page specific logic with accessibility enhancements
 function renderCartItems() {
   const container = document.getElementById('cart-items-container');
   const emptyDiv = document.getElementById('cart-empty');
@@ -15,27 +15,34 @@ function renderCartItems() {
   emptyDiv.style.display = 'none';
 
   container.innerHTML = ShoppingCart.items.map(item => `
-    <div class="cart-item" role="region" aria-label="Item: ${item.name}">
-      <div class="item-image">${item.image}</div>
+    <div class="cart-item" role="region" aria-label="Cart item: ${item.name}, Price: ${item.price} dollars, Quantity: ${item.quantity}">
+      <div class="item-image" role="img" aria-label="${item.image} - ${item.name}">
+        ${item.image}
+      </div>
       <div class="item-details">
-        <h4>${item.name}</h4>
+        <h3>${item.name}</h3>
         <p class="item-price">$${item.price.toFixed(2)} each</p>
       </div>
       
       <div class="item-controls">
-        <label for="qty-${item.id}">Qty:</label>
-        <input 
-          type="number" 
-          id="qty-${item.id}" 
-          class="qty-input" 
-          min="1" 
-          value="${item.quantity}"
-          onchange="updateCartQuantity('${item.id}', this.value)"
-          aria-label="Quantity for ${item.name}"
-        >
+        <form onsubmit="event.preventDefault(); updateCartQuantity('${item.id}', document.getElementById('qty-${item.id}').value);">
+          <label for="qty-${item.id}">Quantity:</label>
+          <input 
+            type="number" 
+            id="qty-${item.id}" 
+            class="qty-input" 
+            min="1" 
+            max="999"
+            value="${item.quantity}"
+            required
+            aria-label="Quantity for ${item.name}"
+            aria-required="true"
+          >
+          <button type="submit" class="btn btn-small" aria-label="Update quantity for ${item.name}">Update</button>
+        </form>
       </div>
       
-      <div class="item-total">
+      <div class="item-total" aria-label="Total: ${(item.price * item.quantity).toFixed(2)} dollars">
         $${(item.price * item.quantity).toFixed(2)}
       </div>
       
@@ -54,16 +61,25 @@ function renderCartItems() {
 
 function updateCartQuantity(productId, quantity) {
   const qty = parseInt(quantity);
-  if (qty > 0) {
-    ShoppingCart.updateQuantity(productId, qty);
-    renderCartItems();
+  if (!qty || qty < 1) {
+    const item = ShoppingCart.items.find(i => i.id === productId);
+    ShoppingCart.showNotification(`Please enter a valid quantity for ${item.name}`);
+    document.getElementById(`qty-${productId}`).focus();
+    return;
   }
+  if (qty > 999) {
+    ShoppingCart.showNotification('Maximum quantity is 999 items');
+    return;
+  }
+  ShoppingCart.updateQuantity(productId, qty);
+  renderCartItems();
 }
 
 function removeFromCartHandler(productId) {
+  const item = ShoppingCart.items.find(i => i.id === productId);
   ShoppingCart.removeFromCart(productId);
   renderCartItems();
-  ShoppingCart.showNotification('Item removed from cart');
+  ShoppingCart.showNotification(`${item.name} removed from cart`);
 }
 
 function updateOrderSummary() {
@@ -72,21 +88,34 @@ function updateOrderSummary() {
   const total = subtotal + tax;
 
   document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+  document.getElementById('subtotal').setAttribute('aria-label', `Subtotal: ${subtotal.toFixed(2)} dollars`);
+  
   document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+  document.getElementById('tax').setAttribute('aria-label', `Tax at 10 percent: ${tax.toFixed(2)} dollars`);
+  
   document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+  document.getElementById('total').setAttribute('aria-label', `Total: ${total.toFixed(2)} dollars`);
 }
 
 function checkout() {
   if (ShoppingCart.items.length === 0) {
-    alert('Cart is empty');
+    ShoppingCart.showNotification('Cart is empty. Cannot proceed to checkout.');
     return;
   }
 
   const total = ShoppingCart.getTotal() * 1.1;
-  alert(`Order placed successfully!\n\nTotal: $${total.toFixed(2)}\n\nThank you for your purchase!`);
+  const message = `Order placed successfully!
+
+Total: $${total.toFixed(2)}
+
+Thank you for your purchase!`;
+  
+  ShoppingCart.showNotification('Order confirmed! Redirecting to home page...');
   ShoppingCart.clear();
-  renderCartItems();
-  window.location.href = 'index.html';
+  
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 2000);
 }
 
 function continueShopping() {

@@ -1,46 +1,52 @@
-// Product data
+// Product data with proper descriptions for accessibility
 const products = [
   {
     id: 'p1',
     name: 'Accessible Sneakers',
     price: 79.99,
-    description: 'Comfortable, wide-fit sneakers with excellent support.',
-    image: '👟'
+    description: 'Comfortable, wide-fit sneakers with excellent support for all-day wear.',
+    image: '👟',
+    imageAlt: 'Shoe icon representing sneakers'
   },
   {
     id: 'p2',
     name: 'Noise-Cancelling Headphones',
     price: 129.99,
-    description: 'Lightweight and comfortable for long listening sessions.',
-    image: '🎧'
+    description: 'Lightweight and comfortable headphones for long listening sessions with active noise cancellation.',
+    image: '🎧',
+    imageAlt: 'Headphones icon'
   },
   {
     id: 'p3',
     name: 'Braille Keyboard Cover',
     price: 29.99,
-    description: 'High-contrast, tactile markers for easy navigation.',
-    image: '⌨️'
+    description: 'High-contrast, tactile markers for keyboard navigation and accessibility.',
+    image: '⌨️',
+    imageAlt: 'Keyboard icon representing keyboard accessories'
   },
   {
     id: 'p4',
     name: 'Screen Reader Compatible Mouse',
     price: 39.99,
-    description: 'Ergonomic design with accessible button layout.',
-    image: '🖱️'
+    description: 'Ergonomic design with accessible button layout and tactile feedback.',
+    image: '🖱️',
+    imageAlt: 'Mouse icon'
   },
   {
     id: 'p5',
     name: 'High Contrast Monitor Filter',
     price: 49.99,
-    description: 'Reduces glare and improves text readability.',
-    image: '🖥️'
+    description: 'Reduces glare and improves text readability for low vision users.',
+    image: '🖥️',
+    imageAlt: 'Monitor icon representing display accessories'
   },
   {
     id: 'p6',
     name: 'Accessible Desk Lamp',
     price: 59.99,
-    description: 'Dimmable with simple voice control integration.',
-    image: '💡'
+    description: 'Dimmable LED lamp with simple controls and voice control integration support.',
+    image: '💡',
+    imageAlt: 'Lightbulb icon representing lighting'
   }
 ];
 
@@ -136,15 +142,16 @@ const ShoppingCart = {
     if (!container) return;
 
     container.innerHTML = products.map(product => `
-      <article class="product-card" role="article" aria-labelledby="product-${product.id}">
-        <div class="product-image">${product.image}</div>
+      <article class="product-card" role="region" aria-labelledby="product-${product.id}">
+        <div class="product-image" role="img" aria-label="${product.imageAlt}">${product.image}</div>
         <h3 id="product-${product.id}">${product.name}</h3>
         <p class="product-description">${product.description}</p>
-        <p class="product-price">$${product.price.toFixed(2)}</p>
+        <p class="product-price" aria-label="Price: ${product.price} dollars">$${product.price.toFixed(2)}</p>
         
-        <div class="product-actions">
-          <label for="qty-${product.id}">Quantity:</label>
-          <select id="qty-${product.id}" class="qty-select" aria-label="Quantity for ${product.name}">
+        <form class="product-actions" onsubmit="event.preventDefault(); addToCartHandler('${product.id}')">
+          <label for="qty-${product.id}">Quantity (required):</label>
+          <select id="qty-${product.id}" class="qty-select" required aria-label="Quantity for ${product.name}" aria-required="true">
+            <option value="">-- Select quantity --</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -152,21 +159,22 @@ const ShoppingCart = {
             <option value="10">10</option>
           </select>
           
-          <button class="btn btn-primary" onclick="addToCartHandler('${product.id}')">
+          <button type="submit" class="btn btn-primary" aria-label="Add ${product.name} to cart">
             Add to Cart
           </button>
-        </div>
+        </form>
       </article>
     `).join('');
   },
 
-  // Show temporary notification
+  // Show temporary notification with accessibility
   showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
     notification.setAttribute('role', 'status');
     notification.setAttribute('aria-live', 'polite');
+    notification.setAttribute('aria-atomic', 'true');
     document.body.appendChild(notification);
 
     setTimeout(() => {
@@ -180,11 +188,20 @@ const ShoppingCart = {
   }
 };
 
-// Handler function for add to cart
+// Handler function for add to cart with validation
 function addToCartHandler(productId) {
   const qtySelect = document.getElementById(`qty-${productId}`);
   const quantity = parseInt(qtySelect.value);
+  
+  if (!quantity || quantity < 1) {
+    const product = products.find(p => p.id === productId);
+    ShoppingCart.showNotification(`Please select a valid quantity for ${product.name}`);
+    qtySelect.focus();
+    return;
+  }
+  
   ShoppingCart.addToCart(productId, quantity);
+  qtySelect.value = '';
 }
 
 // Initialize on page load
