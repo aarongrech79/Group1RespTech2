@@ -1,23 +1,14 @@
 {
-  "name": "accessible-ecommerce-starter",
+  "name": "accessible-ecommerce-vanilla",
   "version": "0.1.0",
-  "private": true,
+  "description": "Accessible e-commerce site with vanilla HTML/JavaScript",
+  "main": "index.html",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "npx http-server -p 3000 -c-1",
+    "dev": "npx http-server -p 3000 -c-1"
   },
-  "dependencies": {
-    "next": "14.0.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "typescript": "5.2.2",
-    "tailwindcss": "3.5.3",
-    "postcss": "8.4.21",
-    "autoprefixer": "10.4.13",
-    "@types/react": "18.2.21"
+    "http-server": "^14.1.1"
   }
 }
