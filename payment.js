@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-
+//new branch
 // Render billing and shipping summaries
 function renderAddressSummaries() {
   const billing = JSON.parse(localStorage.getItem('checkoutBilling') || '{}');
