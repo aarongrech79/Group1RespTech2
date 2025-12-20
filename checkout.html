@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Checkout - Enter billing and shipping information">
+  <title>Checkout - Accessible E-Commerce Store</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Skip to main content link for keyboard users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <div id="app">
+    <!-- Header -->
+    <header class="header" role="banner">
+      <div class="header-content">
+        <h1 class="site-title">
+          <a href="index.html" class="logo-link" aria-label="Accessible Shop - Home page">Accessible Shop</a>
+        </h1>
+        <nav aria-label="Main navigation">
+          <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cart.html">Cart <span class="cart-badge" id="cart-count">0</span></a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" id="main-content" role="main">
+      <h1>Checkout</h1>
+
+      <div class="checkout-progress">
+        <ol class="progress-steps">
+          <li class="active">Billing & Shipping</li>
+          <li>Payment</li>
+          <li>Confirmation</li>
+        </ol>
+      </div>
+
+      <div class="checkout-layout">
+        <div class="checkout-forms">
+          <form id="checkout-form" class="checkout-form" onsubmit="handleCheckoutSubmit(event)">
+            
+            <!-- Billing Information -->
+            <section class="form-section">
+              <h2>Billing Information</h2>
+              
+              <div class="form-group">
+                <label for="billing-name">Full Name <span class="required">*</span></label>
+                <input type="text" id="billing-name" name="billing-name" required aria-required="true" autocomplete="name">
+              </div>
+
+              <div class="form-group">
+                <label for="billing-email">Email Address <span class="required">*</span></label>
+                <input type="email" id="billing-email" name="billing-email" required aria-required="true" autocomplete="email">
+              </div>
+
+              <div class="form-group">
+                <label for="billing-phone">Phone Number <span class="required">*</span></label>
+                <input type="tel" id="billing-phone" name="billing-phone" required aria-required="true" autocomplete="tel">
+              </div>
+
+              <div class="form-group">
+                <label for="billing-address">Street Address <span class="required">*</span></label>
+                <input type="text" id="billing-address" name="billing-address" required aria-required="true" autocomplete="street-address">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="billing-city">City <span class="required">*</span></label>
+                  <input type="text" id="billing-city" name="billing-city" required aria-required="true" autocomplete="address-level2">
+                </div>
+
+                <div class="form-group">
+                  <label for="billing-state">State/Province <span class="required">*</span></label>
+                  <input type="text" id="billing-state" name="billing-state" required aria-required="true" autocomplete="address-level1">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="billing-zip">ZIP/Postal Code <span class="required">*</span></label>
+                  <input type="text" id="billing-zip" name="billing-zip" required aria-required="true" autocomplete="postal-code">
+                </div>
+
+                <div class="form-group">
+                  <label for="billing-country">Country <span class="required">*</span></label>
+                  <select id="billing-country" name="billing-country" required aria-required="true" autocomplete="country">
+                    <option value="">-- Select Country --</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="MT">Malta</option>
+                    <option value="DE">Germany</option>
+                    <option value="FR">France</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- Shipping Information -->
+            <section class="form-section">
+              <h2>Shipping Information</h2>
+              
+              <div class="form-group checkbox-group">
+                <input type="checkbox" id="same-as-billing" onchange="toggleShippingAddress(this.checked)">
+                <label for="same-as-billing">Shipping address same as billing</label>
+              </div>
+
+              <div id="shipping-fields">
+                <div class="form-group">
+                  <label for="shipping-name">Full Name <span class="required">*</span></label>
+                  <input type="text" id="shipping-name" name="shipping-name" required aria-required="true" autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                  <label for="shipping-address">Street Address <span class="required">*</span></label>
+                  <input type="text" id="shipping-address" name="shipping-address" required aria-required="true" autocomplete="street-address">
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="shipping-city">City <span class="required">*</span></label>
+                    <input type="text" id="shipping-city" name="shipping-city" required aria-required="true" autocomplete="address-level2">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="shipping-state">State/Province <span class="required">*</span></label>
+                    <input type="text" id="shipping-state" name="shipping-state" required aria-required="true" autocomplete="address-level1">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="shipping-zip">ZIP/Postal Code <span class="required">*</span></label>
+                    <input type="text" id="shipping-zip" name="shipping-zip" required aria-required="true" autocomplete="postal-code">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="shipping-country">Country <span class="required">*</span></label>
+                    <select id="shipping-country" name="shipping-country" required aria-required="true" autocomplete="country">
+                      <option value="">-- Select Country --</option>
+                      <option value="US">United States</option>
+                      <option value="CA">Canada</option>
+                      <option value="GB">United Kingdom</option>
+                      <option value="MT">Malta</option>
+                      <option value="DE">Germany</option>
+                      <option value="FR">France</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div class="form-actions">
+              <a href="cart.html" class="btn btn-secondary">Back to Cart</a>
+              <button type="submit" class="btn btn-primary">Continue to Payment</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <aside class="checkout-summary" aria-labelledby="summary-heading">
+          <h2 id="summary-heading">Order Summary</h2>
+          <div id="checkout-summary-items"></div>
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span id="checkout-subtotal">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Tax (10%):</span>
+            <span id="checkout-tax">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping:</span>
+            <span id="checkout-shipping">$5.00</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total:</span>
+            <span id="checkout-total">$0.00</span>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <p>&copy; 2025 Accessible E-Commerce. WCAG AA Compliant. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>

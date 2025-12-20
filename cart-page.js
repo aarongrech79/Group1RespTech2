@@ -103,19 +103,8 @@ function checkout() {
     return;
   }
 
-  const total = ShoppingCart.getTotal() * 1.1;
-  const message = `Order placed successfully!
-
-Total: $${total.toFixed(2)}
-
-Thank you for your purchase!`;
-  
-  ShoppingCart.showNotification('Order confirmed! Redirecting to home page...');
-  ShoppingCart.clear();
-  
-  setTimeout(() => {
-    window.location.href = 'index.html';
-  }, 2000);
+  // Navigate to checkout page
+  window.location.href = 'checkout.html';
 }
 
 function continueShopping() {

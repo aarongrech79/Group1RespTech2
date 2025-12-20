@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Payment - Complete your order">
+  <title>Payment - Accessible E-Commerce Store</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Skip to main content link for keyboard users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <div id="app">
+    <!-- Header -->
+    <header class="header" role="banner">
+      <div class="header-content">
+        <h1 class="site-title">
+          <a href="index.html" class="logo-link" aria-label="Accessible Shop - Home page">Accessible Shop</a>
+        </h1>
+        <nav aria-label="Main navigation">
+          <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cart.html">Cart <span class="cart-badge" id="cart-count">0</span></a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" id="main-content" role="main">
+      <h1>Payment</h1>
+
+      <div class="checkout-progress">
+        <ol class="progress-steps">
+          <li>Billing & Shipping</li>
+          <li class="active">Payment</li>
+          <li>Confirmation</li>
+        </ol>
+      </div>
+
+      <div class="checkout-layout">
+        <div class="checkout-forms">
+          <form id="payment-form" class="checkout-form" onsubmit="handlePaymentSubmit(event)">
+            
+            <!-- Payment Information -->
+            <section class="form-section">
+              <h2>Payment Information</h2>
+              
+              <div class="form-group">
+                <label for="card-number">Card Number <span class="required">*</span></label>
+                <input 
+                  type="text" 
+                  id="card-number" 
+                  name="card-number" 
+                  required 
+                  aria-required="true"
+                  placeholder="1234 5678 9012 3456"
+                  maxlength="19"
+                  pattern="[0-9 ]{13,19}"
+                  autocomplete="cc-number"
+                >
+                <small class="form-help">Enter 13-19 digits</small>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="card-expiry-month">Expiry Month <span class="required">*</span></label>
+                  <select id="card-expiry-month" name="card-expiry-month" required aria-required="true" autocomplete="cc-exp-month">
+                    <option value="">MM</option>
+                    <option value="01">01 - January</option>
+                    <option value="02">02 - February</option>
+                    <option value="03">03 - March</option>
+                    <option value="04">04 - April</option>
+                    <option value="05">05 - May</option>
+                    <option value="06">06 - June</option>
+                    <option value="07">07 - July</option>
+                    <option value="08">08 - August</option>
+                    <option value="09">09 - September</option>
+                    <option value="10">10 - October</option>
+                    <option value="11">11 - November</option>
+                    <option value="12">12 - December</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="card-expiry-year">Expiry Year <span class="required">*</span></label>
+                  <select id="card-expiry-year" name="card-expiry-year" required aria-required="true" autocomplete="cc-exp-year">
+                    <option value="">YYYY</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                    <option value="2031">2031</option>
+                    <option value="2032">2032</option>
+                    <option value="2033">2033</option>
+                    <option value="2034">2034</option>
+                    <option value="2035">2035</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="card-cvv">CVV/CVC <span class="required">*</span></label>
+                  <input 
+                    type="text" 
+                    id="card-cvv" 
+                    name="card-cvv" 
+                    required 
+                    aria-required="true"
+                    placeholder="123"
+                    maxlength="4"
+                    pattern="[0-9]{3,4}"
+                    autocomplete="cc-csc"
+                    aria-describedby="cvv-help"
+                  >
+                  <small id="cvv-help" class="form-help">3-4 digit security code</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="card-name">Cardholder Name <span class="required">*</span></label>
+                  <input 
+                    type="text" 
+                    id="card-name" 
+                    name="card-name" 
+                    required 
+                    aria-required="true"
+                    placeholder="Name on card"
+                    autocomplete="cc-name"
+                  >
+                </div>
+              </div>
+
+              <div class="security-notice" role="note">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                </svg>
+                <p>Your payment information is secure and encrypted.</p>
+              </div>
+            </section>
+
+            <div class="form-actions">
+              <a href="checkout.html" class="btn btn-secondary">Back to Billing</a>
+              <button type="submit" class="btn btn-primary">Complete Order</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <aside class="checkout-summary" aria-labelledby="summary-heading">
+          <h2 id="summary-heading">Order Summary</h2>
+          
+          <!-- Billing & Shipping Info -->
+          <div class="summary-section">
+            <h3>Billing Address</h3>
+            <div id="billing-summary" class="address-summary"></div>
+          </div>
+
+          <div class="summary-section">
+            <h3>Shipping Address</h3>
+            <div id="shipping-summary" class="address-summary"></div>
+          </div>
+
+          <!-- Order Items -->
+          <div class="summary-section">
+            <h3>Items</h3>
+            <div id="payment-summary-items"></div>
+          </div>
+
+          <!-- Order Totals -->
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span id="payment-subtotal">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Tax (10%):</span>
+            <span id="payment-tax">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping:</span>
+            <span id="payment-shipping">$5.00</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total:</span>
+            <span id="payment-total">$0.00</span>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <p>&copy; 2025 Accessible E-Commerce. WCAG AA Compliant. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+  <script src="payment.js"></script>
+</body>
+</html>

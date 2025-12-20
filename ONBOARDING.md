@@ -29,12 +29,19 @@ Open http://localhost:3000 in your browser. You should see the product listing p
 ## Project Structure
 
 ```
-src/
-  pages/          → Next.js routes (index, product detail)
-  components/     → React components (Layout, ProductCard)
-  styles/         → Global CSS with Tailwind
+index.html           → Home page with product listing
+product-detail.html  → Individual product detail page
+cart.html            → Shopping cart page
+checkout.html        → Billing & shipping information forms
+payment.html         → Payment information and order confirmation
+app.js               → Core cart logic & product data
+cart-page.js         → Cart page specific functionality
+product-detail.js    → Product detail page logic
+checkout.js          → Checkout form handling
+payment.js           → Payment form handling & validation
+styles.css           → All styling (responsive + WCAG AA accessible)
 .github/
-  workflows/      → CI/CD (runs on every push)
+  workflows/         → CI/CD (runs on every push)
 ```
 
 ---
@@ -55,9 +62,11 @@ src/
 
 3. **Test locally**
    ```bash
-   npm run build    # Check for TypeScript errors
    npm run dev      # Start dev server
    ```
+   - Test all pages: Home, Product Details, Cart, Checkout, Payment
+   - Verify forms work correctly with validation
+   - Test keyboard navigation (Tab, Enter, Escape)
 
 4. **Push your branch**
    ```bash
@@ -84,10 +93,10 @@ Update [CODEOWNERS](CODEOWNERS) with your GitHub handles:
 | Role | GitHub Handles | Responsibility |
 |------|---|---|
 | Lead / Product | @person1 | Product decisions, PR reviews |
-| Frontend (2–3) | @person2, @person3, @person4 | Pages, components, UI |
-| Backend Integration | @person5 | API routes, database setup |
-| Accessibility & QA | @person6 | A11y audits, keyboard/AT testing |
-| DevOps / CI | @person7 | GitHub Actions, deployments |
+| Frontend (2–3) | @person2, @person3, @person4 | HTML/CSS/JS pages, forms, UI |
+| E-commerce Flow | @person5 | Cart, checkout, payment logic |
+| Accessibility & QA | @person6 | A11y audits, WCAG AA compliance testing |
+| DevOps / CI | @person7 | GitHub Actions, static hosting deployments |
 
 ---
 
@@ -110,11 +119,10 @@ Every PR must follow the **Accessibility Checklist**:
 | Command | Purpose |
 |---------|---------|
 | `npm run dev` | Start local dev server (http://localhost:3000) |
-| `npm run build` | Build for production; catch TypeScript errors |
-| `npm run lint` | Run ESLint (configure as needed) |
 | `npm install` | Install/update dependencies |
 | `git status` | Check branch & uncommitted changes |
-| `git log --oneline` | View commit history |
+| `git log --online` | View commit history |
+| `git branch -a` | List all branches |
 
 ---
 
@@ -122,11 +130,32 @@ Every PR must follow the **Accessibility Checklist**:
 
 The **CI workflow** runs automatically on every push and PR:
 - Installs dependencies
-- Runs `npm run build`
+- Validates project setup
+- Ensures all files are present
 
 ✅ **All checks must pass** before merging.
 
 View results in **Actions** tab on GitHub.
+
+---
+
+## Testing the E-commerce Flow
+
+Test the complete user journey:
+
+1. **Home Page** → Browse 6 products, view details
+2. **Product Detail** → View full product info, add to cart
+3. **Shopping Cart** → Update quantities, remove items, see totals
+4. **Checkout** → Fill billing & shipping forms (use "same as billing" checkbox)
+5. **Payment** → Enter card details, review order summary
+6. **Confirmation** → Order confirmed, cart cleared
+
+**Key Features to Test:**
+- Cart badge updates in real-time
+- localStorage persistence (refresh page, cart remains)
+- Form validation (required fields, card expiry date)
+- Keyboard navigation throughout
+- Screen reader announcements
 
 ---
 
@@ -167,6 +196,10 @@ Create a Personal Access Token: https://github.com/settings/tokens → `repo` sc
 
 ## Questions?
 
-Check [README.md](README.md), [CONTRIBUTING.md](CONTRIBUTING.md), or [accessibility.md](accessibility.md).
+Check these guides:
+- [HTML_STYLE_GUIDE.md](HTML_STYLE_GUIDE.md) - **HTML patterns and component templates**
+- [README.md](README.md) - Project overview
+- [CONTRIBUTING.md](CONTRIBUTING.md) - PR process
+- [accessibility.md](accessibility.md) - Accessibility requirements
 
 Happy coding! 🚀

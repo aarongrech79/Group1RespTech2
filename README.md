@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-Open **http://localhost:3000** in your browser.
+Open **http://nplocalhost:3000** in your browser.
 
 ## Features
 
@@ -25,7 +25,8 @@ Open **http://localhost:3000** in your browser.
 - Adjust quantities
 - Real-time cart updates
 - Order summary with tax calculation
-- Checkout confirmation
+- Complete checkout flow with billing/shipping forms
+- Secure payment page
 - Data persists in browser (localStorage)
 
 ✅ **Product Catalog**
@@ -41,22 +42,31 @@ Open **http://localhost:3000** in your browser.
 ## File Structure
 
 ```
-index.html        → Home page with product listing
-cart.html         → Shopping cart page
-app.js            → Core cart logic & product rendering
-cart-page.js      → Cart page specific functionality
-styles.css        → All styling (responsive + accessible)
-package.json      → Project dependencies (just http-server)
+index.html           → Home page with product listing
+product-detail.html  → Individual product detail page
+cart.html            → Shopping cart page
+checkout.html        → Billing & shipping information forms
+payment.html         → Payment information and order confirmation
+app.js               → Core cart logic & product data
+cart-page.js         → Cart page specific functionality
+product-detail.js    → Product detail page logic
+checkout.js          → Checkout form handling
+payment.js           → Payment form handling
+styles.css           → All styling (responsive + accessible)
+package.json         → Project dependencies (just http-server)
 ```
 
 ## How It Works
 
 1. **Browse Products:** View all 6 products on the home page
-2. **Add to Cart:** Select quantity and click "Add to Cart"
-3. **View Cart:** Click cart badge in header to see your items
-4. **Manage Items:** Adjust quantities or remove items
-5. **Checkout:** Review order summary and click "Proceed to Checkout"
-6. **Data Persistence:** Cart is saved to browser's localStorage
+2. **View Details:** Click "View Details" to see full product information
+3. **Add to Cart:** Select quantity and click "Add to Cart" from home or detail page
+4. **View Cart:** Click cart badge in header to see your items
+5. **Manage Items:** Adjust quantities or remove items in cart
+6. **Checkout:** Enter billing and shipping information
+7. **Payment:** Enter payment details and confirm order
+8. **Confirmation:** Order is confirmed and cart is cleared
+9. **Data Persistence:** Cart and checkout data saved to browser's localStorage
 
 ## Accessibility Features
 
